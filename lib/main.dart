@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import './screens/first_screen.dart';
 import './screens/login_screen.dart';
 import './screens/sign_up_screen.dart';
@@ -21,7 +20,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (ctx) => FirstScreen(),
         LoginScreen.routeName: (ctx) => LoginScreen(),
-        SignUpScreen.routeName: (ctx) => SignUpScreen(),
+        SignUpScreen.routeName: (ctx) =>  SignUpScreen(),
       },
     );
   }
