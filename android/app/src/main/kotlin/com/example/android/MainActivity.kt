@@ -1,4 +1,4 @@
-package com.example.login_curiio
+package com.example.android
 
 import io.flutter.embedding.android.FlutterActivity
 

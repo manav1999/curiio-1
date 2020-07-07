@@ -1,0 +1,1 @@
+//Sign up widget for sign_up_screen

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "114014852370",
+    "firebase_url": "https://curiio-dev-3cedd.firebaseio.com",
+    "project_id": "curiio-dev-3cedd",
+    "storage_bucket": "curiio-dev-3cedd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:114014852370:android:912c5c61852bb2cdd9cfcb",
+        "android_client_info": {
+          "package_name": "com.example.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "114014852370-6mjfbp4ucjgfrd8u0fb9h5c85th1pu96.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.android",
+            "certificate_hash": "2636b2324a8ec17c9660e918e039c3d2934c8fd3"
+          }
+        },
+        {
+          "client_id": "114014852370-vrh8r2s1sqc5d7331odbo59d2f0sqro8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAgYFep0sbZShAMpmOvEf_Mo0xklAumvrU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "114014852370-vrh8r2s1sqc5d7331odbo59d2f0sqro8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
