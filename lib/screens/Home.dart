@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:login_curiio/screens/first_screen.dart';
 import 'auth.dart';
+//nothing in here :)
 
 class Home extends StatelessWidget {
   @override
@@ -17,6 +18,7 @@ class Home extends StatelessWidget {
             flex: 1,
           ),
           Text("Email: $email"),
+          //Image.network(imageurl),
           RaisedButton(child: Text("logout"),
             onPressed: () {
               signOutGoogle();
@@ -24,6 +26,7 @@ class Home extends StatelessWidget {
                   MaterialPageRoute(builder: (context) {
                 return FirstScreen();
               }), ModalRoute.withName('/'));
+
             },
           )
         ],

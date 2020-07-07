@@ -4,6 +4,7 @@ import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'auth.dart';
 import './sign_up_screen.dart';
 import 'Home.dart';
+import 'Login_field.dart';
 
 class LoginScreen extends StatelessWidget {
   static const routeName = '/login-screen';
@@ -60,32 +61,7 @@ class LoginScreen extends StatelessWidget {
               SizedBox(
                 height: 20,
               ),
-              TextField(
-                decoration: InputDecoration(
-                  labelText: 'User Name',
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              TextField(
-                obscureText: true,
-                decoration: InputDecoration(
-                  labelText: 'Password',
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              RaisedButton(
-                child: Text('Login'),
-                onPressed: () {},
-                color: Theme
-                    .of(context)
-                    .primaryColor,
-                shape: RoundedRectangleBorder(
-                    borderRadius: new BorderRadius.circular(30.0)),
-              ),
+              Loginwidget(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

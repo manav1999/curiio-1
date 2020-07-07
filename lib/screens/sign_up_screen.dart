@@ -1,5 +1,9 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
+import 'auth.dart';
+import 'Home.dart';
 
 class SignUpScreen extends StatefulWidget {
   static const routeName = '/sign-up-screen';
@@ -26,11 +30,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
     final _media = MediaQuery.of(context).size;
 
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          height: _media.height,
-          width: _media.width,
-          padding: const EdgeInsets.all(15),
+      body: Container(
+        height: _media.height,
+        width: _media.width,
+        padding: const EdgeInsets.all(15),
+        child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
               SizedBox(height: MediaQuery.of(context).padding.top),
@@ -58,19 +62,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 text: 'Sign up with Google',
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30)),
-                onPressed: () {},
+                onPressed: () {
+                  signInWithGoogle().whenComplete(() {
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) {
+                      return Home();
+                    }));
+                  });
+                },
               ),
               SizedBox(height: 10),
-              SignInButton(
-                Buttons.Facebook,
-                text: 'Sign up with Facebook',
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30)),
-                onPressed: () {},
-              ),
-              SizedBox(
-                height: 10,
-              ),
               Text('Or sign up with your email id',
                   style: TextStyle(fontWeight: FontWeight.bold)),
               TextField(
@@ -95,7 +96,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 controller: repasswordController,
               ),
               SizedBox(
-                height: 20,
+                height: 10,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -108,8 +109,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       _togglePrivacyPolicy();
                     },
                   ),
-                  SizedBox(width: 10),
-                  Text('I agree with the Privacy Policy.'),
+                  SizedBox(width: 20),
+                  RichText(
+                    text: TextSpan(children: [
+                      TextSpan(text: 'I agree with the ',style: TextStyle(color: Colors.black)),
+                      TextSpan(
+                          text: 'Privacy Policy',
+                          style:
+                              TextStyle(color: Theme.of(context).primaryColor,fontWeight: FontWeight.bold),
+                          recognizer: TapGestureRecognizer()..onTap=(){launch('https://pub.dev/packages/url_launcher#-installing-tab-');})
+                    ]),
+                  )
                 ],
               ),
               SizedBox(
