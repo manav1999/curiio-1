@@ -8,6 +8,7 @@ import 'Login_field.dart';
 
 class LoginScreen extends StatelessWidget {
   static const routeName = '/login-screen';
+  final AuthService _auth= AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -48,10 +49,10 @@ class LoginScreen extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30)),
                 onPressed: () {
-                  signInWithGoogle().whenComplete(() {
+                  _auth.signInWithGoogle().whenComplete(() {
                     Navigator.of(context).push(
                         MaterialPageRoute(builder: (context) {
-                          return Home();
+                          return Home(_auth.email);
                         }));
                   });
                 },
@@ -61,7 +62,7 @@ class LoginScreen extends StatelessWidget {
               SizedBox(
                 height: 20,
               ),
-              Loginwidget(),
+              Login(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
