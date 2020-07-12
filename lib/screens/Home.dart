@@ -4,6 +4,12 @@ import 'auth.dart';
 //nothing in here :)
 
 class Home extends StatelessWidget {
+  final AuthService _auth= AuthService();
+  String email='';
+  String name='';
+  Home(this.email,[this.name='null']);
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +27,7 @@ class Home extends StatelessWidget {
           //Image.network(imageurl),
           RaisedButton(child: Text("logout"),
             onPressed: () {
-              signOutGoogle();
+              _auth.signOutGoogle();
               Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(builder: (context) {
                 return FirstScreen();
