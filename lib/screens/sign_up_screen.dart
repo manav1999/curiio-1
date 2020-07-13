@@ -112,19 +112,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   SizedBox(width: 20),
                   RichText(
                     text: TextSpan(children: [
-                      TextSpan(
-                          text: 'I agree with the ',
-                          style: TextStyle(color: Colors.black)),
+                      TextSpan(text: 'I agree with the ',style: TextStyle(color: Colors.black)),
                       TextSpan(
                           text: 'Privacy Policy',
-                          style: TextStyle(
-                              color: Theme.of(context).primaryColor,
-                              fontWeight: FontWeight.bold),
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              launch(
-                                  'https://flutter.dev/');
-                            })
+                          style:
+                              TextStyle(color: Theme.of(context).primaryColor,fontWeight: FontWeight.bold),
+                          recognizer: TapGestureRecognizer()..onTap=(){launch('https://pub.dev/packages/url_launcher#-installing-tab-');})
                     ]),
                   )
                 ],
