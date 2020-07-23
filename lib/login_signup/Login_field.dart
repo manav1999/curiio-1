@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:login_curiio/screens/Home.dart';
-import 'auth.dart';
+import 'package:login_curiio/home/menu_dashboard_layout.dart';
+import './Home.dart';
+import '../auth.dart';
 
 // login widget for login_screen
 class Login extends StatefulWidget {
@@ -11,7 +12,7 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   String email = '';
   String pass = '';
-  String uid ='';
+  String uid = '';
   bool _autovalidate = false;
   final _formKey = GlobalKey<FormState>();
   final AuthService _auth = AuthService();
@@ -27,7 +28,7 @@ class _LoginState extends State<Login> {
   }
 
   String validatePass(String value) {
-    if (value.isEmpty || value.length<6)
+    if (value.isEmpty || value.length < 6)
       return "Enter a password 6+ chars long";
     else
       return null;
@@ -67,19 +68,17 @@ class _LoginState extends State<Login> {
                   child: Text('Login'),
                   onPressed: () async {
                     if (_formKey.currentState.validate()) {
-                      try{
-                        uid=await _auth.signIn(email, pass);
-                        if(uid!=null){
+                      try {
+                        uid = await _auth.signIn(email, pass);
+                        if (uid != null) {
                           Navigator.of(context)
                               .push(MaterialPageRoute(builder: (context) {
-                            return Home(email);
+                            return MenuDashboardLayout();
                           }));
                         }
-                      }
-                      catch (e){
+                      } catch (e) {
                         print(e.toString());
                       }
-
                     } else {
                       setState(() {
                         _autovalidate = true;

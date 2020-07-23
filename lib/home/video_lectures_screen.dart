@@ -4,7 +4,7 @@ class VideoLecturesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _media = MediaQuery.of(context).size;
-    final List<String> topics = [];
+    //final List<String> topics = [];
     return LectureTopic(media: _media);
   }
 }

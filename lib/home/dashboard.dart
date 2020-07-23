@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
-import './video_lectures_screen.dart';
-import './faq_screen.dart';
-import './profile_screen.dart';
+import 'video_lectures_screen.dart';
+import 'faq_screen.dart';
+import 'profile_screen.dart';
 
 class Dashboard extends StatefulWidget {
   @override

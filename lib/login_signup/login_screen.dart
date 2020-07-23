@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_signin_button/flutter_signin_button.dart';
-import 'auth.dart';
-import './sign_up_screen.dart';
+import 'package:login_curiio/home/menu_dashboard_layout.dart';
+import '../auth.dart';
+import 'sign_up_screen.dart';
 import 'Home.dart';
 import 'Login_field.dart';
 
 class LoginScreen extends StatelessWidget {
   static const routeName = '/login-screen';
-  final AuthService _auth= AuthService();
+  final AuthService _auth = AuthService();
 
   @override
   Widget build(BuildContext context) {
-    final _media = MediaQuery
-        .of(context)
-        .size;
+    final _media = MediaQuery.of(context).size;
     return Scaffold(
       body: Container(
         height: _media.height,
@@ -24,18 +23,13 @@ class LoginScreen extends StatelessWidget {
           child: Column(
             //  mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              SizedBox(height: MediaQuery
-                  .of(context)
-                  .padding
-                  .top),
+              SizedBox(height: MediaQuery.of(context).padding.top),
               Text(
                 'Login',
                 style: TextStyle(
                   fontSize: 40,
                   fontWeight: FontWeight.bold,
-                  color: Theme
-                      .of(context)
-                      .primaryColor,
+                  color: Theme.of(context).primaryColor,
                 ),
               ),
               Container(
@@ -50,17 +44,19 @@ class LoginScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(30)),
                 onPressed: () {
                   _auth.signInWithGoogle().whenComplete(() {
-                    Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) {
-                          return Home(_auth.email);
-                        }));
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) {
+                      return MenuDashboardLayout();
+                    }));
                   });
                 },
               ),
-              SizedBox(height: 20),
+              SizedBox(
+                height: _media.height * 0.02,
+              ),
               Text('OR', style: TextStyle(fontWeight: FontWeight.bold)),
               SizedBox(
-                height: 20,
+                height: _media.height * 0.02,
               ),
               Login(),
               Row(
@@ -72,9 +68,7 @@ class LoginScreen extends StatelessWidget {
                       'Sign Up',
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: Theme
-                              .of(context)
-                              .primaryColor),
+                          color: Theme.of(context).primaryColor),
                     ),
                     onPressed: () {
                       Navigator.of(context).pushNamed(SignUpScreen.routeName);

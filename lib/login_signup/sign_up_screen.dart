@@ -1,10 +1,11 @@
-import 'package:flutter/gestures.dart';
+//import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:login_curiio/screens/SignUp_field.dart';
-import 'package:url_launcher/url_launcher.dart';
+import './SignUp_field.dart';
+//import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
-import 'auth.dart';
+import '../auth.dart';
 import 'Home.dart';
+import '../home/menu_dashboard_layout.dart';
 
 class SignUpScreen extends StatelessWidget {
   static const routeName = '/sign-up-screen';
@@ -51,7 +52,7 @@ class SignUpScreen extends StatelessWidget {
                   _auth.signInWithGoogle().whenComplete(() {
                     Navigator.of(context)
                         .push(MaterialPageRoute(builder: (context) {
-                      return Home(_auth.email,_auth.name);
+                      return MenuDashboardLayout(); //_auth.email, _auth.name
                     }));
                   });
                 },

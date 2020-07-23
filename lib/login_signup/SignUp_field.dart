@@ -1,10 +1,11 @@
 //Sign up widget for sign_up_screen
 import 'package:flutter/gestures.dart';
-import 'package:login_curiio/screens/auth.dart';
-import 'package:login_curiio/screens/login_screen.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:login_curiio/auth.dart';
+import './login_screen.dart';
+//import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'Home.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class Register extends StatefulWidget {
   @override
@@ -15,13 +16,22 @@ class _RegisterState extends State<Register> {
   final AuthService _auth = AuthService();
   final _formkey = GlobalKey<FormState>();
 
+  WebViewController _controller;
+  bool showLoading = false;
+
   String email = '';
   String pass = '';
-  String RePass = '';
-  String error='';
+  String rePass = '';
+  String error = '';
 
   bool _checkBox = false;
   bool _autovalidate = false;
+
+  void updateLoading(bool ls) {
+    setState(() {
+      showLoading = ls;
+    });
+  }
 
   void _togglePrivacyPolicy() {
     setState(() {
@@ -40,7 +50,7 @@ class _RegisterState extends State<Register> {
   }
 
   String validatePass(String value) {
-    if (value.isEmpty || value.length<6)
+    if (value.isEmpty || value.length < 6)
       return "Enter a password 6+ chars long";
     else
       return null;
@@ -88,7 +98,7 @@ class _RegisterState extends State<Register> {
                   obscureText: true,
                   decoration: InputDecoration(labelText: "Re-enter Password"),
                   onChanged: (val) {
-                    RePass = val;
+                    rePass = val;
                   },
                 ),
                 Row(
@@ -104,20 +114,67 @@ class _RegisterState extends State<Register> {
                     ),
                     SizedBox(width: 20),
                     RichText(
-                      text: TextSpan(children: [
-                        TextSpan(
-                            text: 'I agree with the ',
-                            style: TextStyle(color: Colors.black)),
-                        TextSpan(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                              text: 'I agree with the ',
+                              style: TextStyle(color: Colors.black)),
+                          TextSpan(
                             text: 'Privacy Policy',
                             style: TextStyle(
                                 color: Theme.of(context).primaryColor,
                                 fontWeight: FontWeight.bold),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
-                                launch('https://flutter.dev/');
-                              })
-                      ]),
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return Scaffold(
+                                        appBar: AppBar(
+                                          title: Text('Privacy Policy'),
+                                        ),
+                                        body: Stack(
+                                          children: [
+                                            WebView(
+                                              initialUrl:
+                                                  'https://pub.dev/packages/webview_flutter',
+                                              onPageStarted: (url) {
+                                                updateLoading(true);
+                                                _controller
+                                                    .loadUrl(
+                                                        'https://pub.dev/packages/webview_flutter')
+                                                    .then((val) {
+                                                  updateLoading(false);
+                                                }).catchError((e) {
+                                                  updateLoading(false);
+                                                });
+                                              },
+                                              onPageFinished: (url) {
+                                                updateLoading(false);
+                                              },
+                                              javascriptMode:
+                                                  JavascriptMode.unrestricted,
+                                              onWebViewCreated:
+                                                  (webViewController) {
+                                                _controller = webViewController;
+                                              },
+                                            ),
+                                            showLoading
+                                                ? Center(
+                                                    child:
+                                                        CircularProgressIndicator(),
+                                                  )
+                                                : Center(),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                );
+                              },
+                          )
+                        ],
+                      ),
                     )
                   ],
                 ),
@@ -129,19 +186,18 @@ class _RegisterState extends State<Register> {
                   onPressed: _checkBox
                       ? () async {
                           if (_formkey.currentState.validate()) {
-                            dynamic result= await _auth.registerWithEmailAndPassword(email, pass);
-                            if(result==null){
+                            dynamic result = await _auth
+                                .registerWithEmailAndPassword(email, pass);
+                            if (result == null) {
                               setState(() {
-                                error="Please supply valid email ";
+                                error = "Please supply valid email ";
                               });
-                            }
-                            else{
+                            } else {
                               Navigator.of(context)
                                   .push(MaterialPageRoute(builder: (context) {
                                 return LoginScreen();
                               }));
                             }
-
                           } else {
                             setState(() {
                               _autovalidate = true;

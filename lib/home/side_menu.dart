@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import '../auth.dart';
+import './first_screen.dart';
 
 class SideMenu extends StatelessWidget {
+  final AuthService _auth = AuthService();
   final userName;
   final userEmail;
 
@@ -73,7 +76,17 @@ class SideMenu extends StatelessWidget {
             child: Container(),
           ),
           FlatButton.icon(
-            onPressed: () {},
+            onPressed: () {
+              _auth.signOutGoogle();
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                  builder: (context) {
+                    return FirstScreen();
+                  },
+                ),
+                ModalRoute.withName('/'),
+              );
+            },
             icon: Icon(Icons.power_settings_new),
             label: Text('Logout'),
           ),
