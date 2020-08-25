@@ -46,20 +46,22 @@ class AuthService {
       return null;
     }
   }
+
   Future<void> signOut() async {
     return _auth.signOut();
   }
+
   Future<FirebaseUser> getCurrentUser() async {
     FirebaseUser user = await _auth.currentUser();
     return user;
   }
+
   Future<String> signIn(String email, String password) async {
     AuthResult result = await _auth.signInWithEmailAndPassword(
         email: email, password: password);
     FirebaseUser user = result.user;
     return user.uid;
   }
-
 
   void signOutGoogle() async {
     await googleSignIn.signOut();
