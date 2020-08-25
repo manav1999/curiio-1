@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:login_curiio/home/video_lectures_screen.dart';
+
+import 'package:login_curiio/home/splashScreen.dart';
+
+
 import 'home/first_screen.dart';
 import './login_signup/login_screen.dart';
 import './login_signup/sign_up_screen.dart';
@@ -23,10 +26,14 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.white,
       ),
       routes: {
-        '/': (ctx) => FirstScreen(),
+        '/': (ctx) => SplashScreen(),
         LoginScreen.routeName: (ctx) => LoginScreen(),
         SignUpScreen.routeName: (ctx) => SignUpScreen(),
+
+        MenuDashboardLayout.routeName: (ctx) => MenuDashboardLayout(),
+
         VideoLecturesScreen.routeName: (ctx) => VideoLecturesScreen(),
+
       },
     );
   }
