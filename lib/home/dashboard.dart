@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
 import 'video_lectures_screen.dart';
-import 'faq_screen.dart';
+import 'package:login_curiio/home/chat_sceen.dart';
+import 'package:login_curiio/home/phases_list_screen.dart';
 import 'profile_screen.dart';
 
 class Dashboard extends StatefulWidget {
@@ -20,12 +21,12 @@ class _DashboardState extends State<Dashboard>
   int _selectedPageIndex = 0;
 
   final List<Widget> _pages = [
-    VideoLecturesScreen(),
-    FAQScreen(),
+    PhasesListScreen(),
+    ChatScreen(),
     ProfileScreen(),
   ];
 
-  final List<String> appBarTitles = ['Video Lectures', 'FAQ\'s', 'Profile'];
+  final List<String> appBarTitles = ['Phases', 'Chat Room', 'Profile'];
 
   @override
   void initState() {
@@ -83,7 +84,7 @@ class _DashboardState extends State<Dashboard>
             bottomNavigationBar: CurvedNavigationBar(
               items: <Widget>[
                 Icon(Icons.video_library),
-                Icon(Icons.help_outline),
+                Icon(Icons.chat_bubble_outline),
                 Icon(Icons.perm_identity),
               ],
               color: Theme.of(context).primaryColor,

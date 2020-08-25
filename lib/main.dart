@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:login_curiio/home/video_lectures_screen.dart';
 import 'home/first_screen.dart';
 import './login_signup/login_screen.dart';
 import './login_signup/sign_up_screen.dart';
 import './home/menu_dashboard_layout.dart';
+import 'home/menu_dashboard_layout.dart';
 //import 'package:firebase_auth/firebase_auth.dart';
 
 void main() {
@@ -24,6 +26,7 @@ class MyApp extends StatelessWidget {
         '/': (ctx) => FirstScreen(),
         LoginScreen.routeName: (ctx) => LoginScreen(),
         SignUpScreen.routeName: (ctx) => SignUpScreen(),
+        VideoLecturesScreen.routeName: (ctx) => VideoLecturesScreen(),
       },
     );
   }
