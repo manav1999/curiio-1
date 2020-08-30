@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:login_curiio/home/first_login.dart';
 
 import 'package:login_curiio/home/splashScreen.dart';
-
+import 'package:login_curiio/home/video_lectures_screen.dart';
 
 import 'home/first_screen.dart';
 import './login_signup/login_screen.dart';
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
         MenuDashboardLayout.routeName: (ctx) => MenuDashboardLayout(),
 
         VideoLecturesScreen.routeName: (ctx) => VideoLecturesScreen(),
-
+        FirstTimeLogin.routeName: (ctx) => FirstTimeLogin()
       },
     );
   }

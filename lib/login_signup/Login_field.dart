@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:login_curiio/home/first_login.dart';
 import 'package:login_curiio/home/menu_dashboard_layout.dart';
-import './Home.dart';
 import '../auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 // login widget for login_screen
 class Login extends StatefulWidget {
@@ -33,6 +34,9 @@ class _LoginState extends State<Login> {
     else
       return null;
   }
+
+  bool _isRegistered;
+  String _userName;
 
   @override
   Widget build(BuildContext context) {
@@ -71,11 +75,11 @@ class _LoginState extends State<Login> {
                       try {
                         uid = await _auth.signIn(email, pass);
                         if (uid != null) {
-                          Navigator.of(context)
-                              .push(MaterialPageRoute(builder: (context) {
-                            return MenuDashboardLayout();
-                          }));
+                          print("Login successful");
+                          _userCheck(uid);
                         }
+                        /*  */
+
                       } catch (e) {
                         print(e.toString());
                       }
@@ -98,5 +102,25 @@ class _LoginState extends State<Login> {
         ],
       ),
     );
+  }
+
+  void _userCheck(userID) {
+    FirebaseFirestore.instance
+        .collection("users")
+        .doc(userID)
+        .get()
+        .then((value) {
+      if (value.exists) {
+        print("User exists");
+        Map<String, dynamic> data = value.data();
+        _userName = data['name'];
+        _isRegistered = true;
+        Navigator.of(context).pushNamed(MenuDashboardLayout.routeName);
+      } else {
+        print("user does not exists");
+        _isRegistered = false;
+        Navigator.of(context).pushNamed(FirstTimeLogin.routeName);
+      }
+    });
   }
 }

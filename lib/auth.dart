@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 //all firebase auth stuff
+/*
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn();
@@ -66,5 +67,59 @@ class AuthService {
   void signOutGoogle() async {
     await googleSignIn.signOut();
     print("user sign out");
+  }
+}
+*/
+
+class AuthService {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
+
+  //Stream to check authState
+  Stream<User> userdata =
+      FirebaseAuth.instance.authStateChanges().asBroadcastStream();
+
+  //used to register with email and pass
+
+  Future registerWithEmail(String email, String pass) async {
+    try {
+      UserCredential usercredential = await _auth
+          .createUserWithEmailAndPassword(email: email, password: pass);
+      return usercredential;
+    } catch (e) {
+      print(e.toString());
+      return e;
+      //TODO: handle exception on sign up page
+    }
+  }
+
+// used to sign in user
+  Future signIn(String email, String pass) async {
+    try {
+      UserCredential userCredential =
+          await _auth.signInWithEmailAndPassword(email: email, password: pass);
+      return userCredential;
+    } catch (e) {
+      print(e.toString());
+      return e;
+    }
+  }
+
+  Future signOut() async {
+    await FirebaseAuth.instance.signOut();
+  }
+
+  Future GoogleSignOut() async {
+    await _googleSignIn.signOut();
+    signOut();
+  }
+
+  Future<UserCredential> signInWithGoogle() async {
+    final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
+    final GoogleSignInAuthentication googleAuth =
+        await googleUser.authentication;
+    final GoogleAuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
+    return await _auth.signInWithCredential(credential);
   }
 }
