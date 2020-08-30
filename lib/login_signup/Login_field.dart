@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:login_curiio/home/first_login.dart';
 import 'package:login_curiio/home/menu_dashboard_layout.dart';
@@ -13,7 +14,7 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   String email = '';
   String pass = '';
-  String uid = '';
+  UserCredential user;
   bool _autovalidate = false;
   final _formKey = GlobalKey<FormState>();
   final AuthService _auth = AuthService();
@@ -73,10 +74,10 @@ class _LoginState extends State<Login> {
                   onPressed: () async {
                     if (_formKey.currentState.validate()) {
                       try {
-                        uid = await _auth.signIn(email, pass);
-                        if (uid != null) {
+                        user = await _auth.signIn(email, pass);
+                        if (user.user.uid != null) {
                           print("Login successful");
-                          _userCheck(uid);
+                          _userCheck(user.user.uid);
                         }
                         /*  */
 

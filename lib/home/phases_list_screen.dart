@@ -48,13 +48,13 @@ class _PhasesListScreenState extends State<PhasesListScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            'Phase ${levelDocs[index]['level_number']}',
+                            'Phase ${levelDocs[index].data()['level_number']}',
                             style: TextStyle(
                               fontSize: 30,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          Text('${levelDocs[index]['level_description']}'),
+                          Text('${levelDocs[index].data()['level_description']}'),
                         ],
                       ),
                     ),
