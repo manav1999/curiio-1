@@ -4,6 +4,8 @@ import 'side_menu.dart';
 import 'dashboard.dart';
 
 class MenuDashboardLayout extends StatelessWidget {
+  static const routeName = '/menu_dashboard_layout';
+
   final String userName = 'Lorem Ipsum';
   final String userEmail = 'email@gmail.com';
 

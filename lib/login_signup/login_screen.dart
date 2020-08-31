@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
+import 'package:login_curiio/home/first_login.dart';
 import 'package:login_curiio/home/menu_dashboard_layout.dart';
 import '../auth.dart';
 import 'sign_up_screen.dart';
-import 'Home.dart';
 import 'Login_field.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -42,13 +42,9 @@ class LoginScreen extends StatelessWidget {
                 text: 'Sign in with Google',
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30)),
-                onPressed: () {
-                  _auth.signInWithGoogle().whenComplete(() {
-                    Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (context) {
-                      return MenuDashboardLayout();
-                    }));
-                  });
+                onPressed: () async {
+                  var a = await _auth.signInWithGoogle();
+                  _userCheck(a.user.uid, context);
                 },
               ),
               SizedBox(
@@ -81,5 +77,23 @@ class LoginScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _userCheck(userID, context) {
+    FirebaseFirestore.instance
+        .collection("users")
+        .doc(userID)
+        .get()
+        .then((value) {
+      if (value.exists) {
+        print("User exists");
+        Map<String, dynamic> data = value.data();
+
+        Navigator.of(context).pushNamed(MenuDashboardLayout.routeName);
+      } else {
+        print("user does not exists");
+        Navigator.of(context).pushNamed(FirstTimeLogin.routeName);
+      }
+    });
   }
 }

@@ -13,7 +13,7 @@ class _PhasesListScreenState extends State<PhasesListScreen> {
     return Container(
       margin: const EdgeInsets.all(10),
       child: StreamBuilder(
-        stream: Firestore.instance
+        stream: FirebaseFirestore.instance
             .collection('levels')
             .orderBy('level_number')
             .snapshots(),
@@ -21,6 +21,7 @@ class _PhasesListScreenState extends State<PhasesListScreen> {
           if (levelSnapshot.connectionState == ConnectionState.waiting)
             return Center(child: CircularProgressIndicator());
           final levelDocs = levelSnapshot.data.documents;
+          //TODO : use map here "https://firebase.flutter.dev/docs/firestore/usage#one-time-read"
           return GridView.builder(
             gridDelegate:
                 SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
@@ -47,13 +48,13 @@ class _PhasesListScreenState extends State<PhasesListScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            'Phase ${levelDocs[index]['level_number']}',
+                            'Phase ${levelDocs[index].data()['level_number']}',
                             style: TextStyle(
                               fontSize: 30,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          Text('${levelDocs[index]['level_description']}'),
+                          Text('${levelDocs[index].data()['level_description']}'),
                         ],
                       ),
                     ),

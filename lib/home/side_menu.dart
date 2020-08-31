@@ -77,7 +77,8 @@ class SideMenu extends StatelessWidget {
           ),
           FlatButton.icon(
             onPressed: () {
-              _auth.signOutGoogle();
+              _auth.GoogleSignOut();
+              _auth.signOut();
               Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
                   builder: (context) {
