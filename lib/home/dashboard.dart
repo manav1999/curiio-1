@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
 import 'video_lectures_screen.dart';
-import 'package:login_curiio/home/chat_sceen.dart';
+import 'package:login_curiio/home/chatroom/chat_sceen.dart';
 import 'package:login_curiio/home/phases_list_screen.dart';
 import 'profile_screen.dart';
 

@@ -12,6 +12,7 @@ class MenuDashboardLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Theme.of(context).primaryColor,
       body: SafeArea(
         child: Stack(
