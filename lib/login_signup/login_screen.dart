@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:login_curiio/home/first_login.dart';
 import 'package:login_curiio/home/menu_dashboard_layout.dart';
+import 'package:login_curiio/login_signup/forgot_password.dart';
 import '../auth.dart';
 import 'sign_up_screen.dart';
 import 'Login_field.dart';
@@ -55,6 +56,13 @@ class LoginScreen extends StatelessWidget {
                 height: _media.height * 0.02,
               ),
               Login(),
+              FlatButton(
+                onPressed: () {
+                  Navigator.of(context, rootNavigator: true).push(
+                      MaterialPageRoute(builder: (ctx) => ForgotPassword()));
+                },
+                child: Text('Forgot Password?'),
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

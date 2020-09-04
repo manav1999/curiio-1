@@ -19,6 +19,15 @@ class _LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
   final AuthService _auth = AuthService();
 
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
   String validateEmail(String value) {
     Pattern pattern =
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
@@ -30,6 +39,7 @@ class _LoginState extends State<Login> {
   }
 
   String validatePass(String value) {
+    print('tt');
     if (value.isEmpty || value.length < 6)
       return "Enter a password 6+ chars long";
     else
@@ -50,18 +60,35 @@ class _LoginState extends State<Login> {
             child: Column(
               children: <Widget>[
                 TextFormField(
+                  controller: _emailController,
                   validator: validateEmail,
-                  decoration: InputDecoration(labelText: "Email"),
+                  decoration: InputDecoration(
+                    labelText: "Email",
+                    border: new OutlineInputBorder(
+                      borderRadius: new BorderRadius.circular(25.0),
+                      borderSide: new BorderSide(),
+                    ),
+                  ),
                   onChanged: (val) {
                     setState(() {
                       email = val;
                     });
                   },
                 ),
+                SizedBox(
+                  height: 10,
+                ),
                 TextFormField(
+                  controller: _passwordController,
                   validator: validatePass,
                   obscureText: true,
-                  decoration: InputDecoration(labelText: "Password"),
+                  decoration: InputDecoration(
+                    labelText: "Password",
+                    border: new OutlineInputBorder(
+                      borderRadius: new BorderRadius.circular(25.0),
+                      borderSide: new BorderSide(),
+                    ),
+                  ),
                   onChanged: (val) {
                     pass = val;
                   },
