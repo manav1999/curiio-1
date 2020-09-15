@@ -21,48 +21,19 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   }
 
   Future<void> resetPassword(String email) async {
-    await FirebaseAuth.instance
-        .sendPasswordResetEmail(email: email)
-        .then((value) {
-      setState(() {
-        _isLoading = false;
-        _emailSent = true;
-      });
-    });
-  }
-
-  Future<void> _checkIfEmailExists(String email) async {
-    print('checking if email exists in firebase...');
-
-    final userCred = await FirebaseAuth.instance
-        .createUserWithEmailAndPassword(
-            email: email, password: 'areallylongandstrongpassword123')
-        .catchError((error) {
-      if (error.toString().contains('auth/email-already-in-use')) {
-        print('$email exists');
+    try {
+      await FirebaseAuth.instance
+          .sendPasswordResetEmail(email: email)
+          .then((value) {
         setState(() {
-          _emailExists = true;
-          _isLoading = true;
-          _emailSent = false;
-        });
-        resetPassword(email);
-        _emailController.clear();
-      } else {
-        print('invalid email adresss');
-        setState(() {
-          _emailExists = false;
           _isLoading = false;
-          _emailSent = false;
+          _emailSent = true;
+          _emailExists = true;
         });
-      }
-    });
-    if (userCred != null) {
-      print('$email does not exist');
-      //dummy account has been created so we need to delete it now
-      final user = FirebaseAuth.instance.currentUser;
-      final cred = EmailAuthProvider.credential(
-          email: email, password: 'areallylongandstrongpassword123');
-      user.reauthenticateWithCredential(cred).then((value) => user.delete());
+      });
+    } catch (error) {
+      print(error);
+      print('invalid email adresss');
       setState(() {
         _emailExists = false;
         _isLoading = false;
@@ -72,7 +43,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   }
 
   String _validate(String email) {
-    _checkIfEmailExists(email);
+    //_checkIfEmailExists(email);
+    resetPassword(email);
     if (email.isEmpty) return 'Please enter a valid email id.';
     return null;
   }
