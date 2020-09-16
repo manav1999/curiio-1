@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:login_curiio/auth.dart';
 import 'package:login_curiio/home/first_login.dart';
 import 'package:login_curiio/home/menu_dashboard_layout.dart';
+import 'package:login_curiio/home/onBoarding_screen.dart';
 import 'package:login_curiio/login_signup/sign_up_screen.dart';
 import 'dart:async';
 import '../login_signup/login_screen.dart';
@@ -29,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void navigationPage() {
     if (_userID == null) {
       //if user does not exist,Login
-      Navigator.of(context).pushNamed(SignUpScreen.routeName);
+      Navigator.of(context).pushNamed(OnBoardingScreen.routeName);
     } else {
       if (_isRegistered == false) {
         Navigator.of(context).push(MaterialPageRoute(
@@ -109,10 +110,7 @@ class _SplashScreenState extends State<SplashScreen> {
             child: Container(
               child: Text(
                 'Curiio',
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 65,
-                    color: Theme.of(context).primaryColor),
+              style: Theme.of(context).textTheme.headline1,
               ),
             ),
           ),

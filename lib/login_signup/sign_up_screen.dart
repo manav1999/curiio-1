@@ -1,7 +1,7 @@
 //import 'package:flutter/gestures.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 //import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:login_curiio/home/first_login.dart';
@@ -113,11 +113,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 text: 'Sign up with Google',
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30)),
-                onPressed: () {
-                  _auth.signInWithGoogle().whenComplete(() {
-                    Navigator.of(context)
-                        .pushNamed(FirstTimeLogin.routeName);
-                  });
+                onPressed: () async {
+                  var a= await _auth.signInWithGoogle();
+                  _userCheck(a.user.uid, context);
                 },
               ),
               SizedBox(height: 10),
@@ -296,7 +294,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
       ),
     );
   }
+  void _userCheck(userID, context) {
+    FirebaseFirestore.instance
+        .collection("users")
+        .doc(userID)
+        .get()
+        .then((value) {
+      if (value.exists) {
+        print("User exists");
+        Map<String, dynamic> data = value.data();
 
+        Navigator.of(context).pushNamed(MenuDashboardLayout.routeName);
+      } else {
+        print("user does not exists");
+        Navigator.of(context).pushNamed(FirstTimeLogin.routeName);
+      }
+    });
+  }
   void signUpHandle(var a, context) {
     if (a is UserCredential) {
       if (a.user != null) {
