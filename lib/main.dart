@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:login_curiio/home/first_login.dart';
+import 'package:login_curiio/home/onBoarding_screen.dart';
 
 import 'package:login_curiio/home/splashScreen.dart';
 import 'package:login_curiio/home/video_lectures_screen.dart';
+import 'package:login_curiio/theme.dart';
 
 //import 'home/first_screen.dart';
 import './login_signup/login_screen.dart';
@@ -21,18 +23,15 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Curiio',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primaryColor: Colors.orange,
-        accentColor: Colors.orangeAccent,
-        scaffoldBackgroundColor: Colors.white,
-      ),
+      theme: currioTheme(),
       routes: {
         '/': (ctx) => SplashScreen(),
         LoginScreen.routeName: (ctx) => LoginScreen(),
         SignUpScreen.routeName: (ctx) => SignUpScreen(),
         MenuDashboardLayout.routeName: (ctx) => MenuDashboardLayout(),
         VideoLecturesScreen.routeName: (ctx) => VideoLecturesScreen(),
-        FirstTimeLogin.routeName: (ctx) => FirstTimeLogin()
+        FirstTimeLogin.routeName: (ctx) => FirstTimeLogin(),
+        OnBoardingScreen.routeName:(ctx) => OnBoardingScreen()
       },
     );
   }
