@@ -1,8 +1,6 @@
-//import 'package:flutter/gestures.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-//import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:login_curiio/home/first_login.dart';
 import 'package:login_curiio/login_signup/login_screen.dart';
@@ -104,8 +102,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 'Please register with Curiio to avail it\'s content!',
               ),
               Container(
-                //padding: const EdgeInsets.all(10),
-                //margin: const EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
+                margin: const EdgeInsets.all(10),
                 child: Image.asset('assets/images/welcome.png'),
               ),
               SignInButton(
@@ -115,7 +113,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     borderRadius: BorderRadius.circular(30)),
                 onPressed: () async {
                   var a= await _auth.signInWithGoogle();
-                  _userCheck(a.user.uid, context);
+                  signUpHandler(a, context);
                 },
               ),
               SizedBox(height: 10),
@@ -247,7 +245,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               _formkey.currentState.save();
                               var a = await _auth.registerWithEmail(
                                   email, pass);
-                              signUpHandle(a, context);
+                              signUpHandler(a, context);
                             } else {
                               setState(() {
                                 _autovalidate = true;
@@ -311,10 +309,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
       }
     });
   }
-  void signUpHandle(var a, context) {
+  Future<void> signUpHandler(var a, context) {
     if (a is UserCredential) {
       if (a.user != null) {
-        Navigator.of(context).pushNamed(FirstTimeLogin.routeName);
+        _userCheck(a.user.uid, context);
       }
       else {
         print("User is null");
@@ -373,7 +371,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         duration: Duration(seconds: 3),
       )
         ..show(context);
-      print("Error");
+      print("${a.toString()}");
     }
   }
 

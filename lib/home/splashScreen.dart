@@ -51,7 +51,7 @@ class _SplashScreenState extends State<SplashScreen> {
     //Initializing firebase
     Firebase.initializeApp().then((value) {
       //timer
-      startTime();
+     startTime();
       final _auth = AuthService();
       //Get user Status
       _auth.userdata.listen((User user) {

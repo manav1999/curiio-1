@@ -198,7 +198,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                         height: 30,
                       ),
                       Container(
-                        child: Text( "We got it covered through some shot quirky videos, which are both interactive and interesting.",
+                        child: Text( "We got it covered through some short quirky videos, which are both interactive and interesting.",
                           style: TextStyle(
                               fontWeight: FontWeight.normal,
                               color: Color.fromARGB(255, 46, 79, 96),

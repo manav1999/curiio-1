@@ -24,9 +24,9 @@ ThemeData currioTheme() {
   final ThemeData base = ThemeData.light();
   return base.copyWith(
       textTheme: _basicTextTheme(base.textTheme),
+      brightness: Brightness.dark,
   primaryColor: Color.fromARGB(255,236,137,46),
-  accentColor: Color.fromARGB(255, 51, 69, 78)
-
+  accentColor: Color.fromARGB(255, 51, 69, 78),
 
 );
 
