@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:intl/intl.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:login_curiio/home/menu_dashboard_layout.dart';
 
@@ -55,7 +56,7 @@ class _FirstTimeLoginState extends State<FirstTimeLogin> {
     CollectionReference users = FirebaseFirestore.instance.collection('users');
     return users
         .doc(uid)
-        .set({'name': _name, "age": _age, 'entry_score': 3}).then((value) {
+        .set({'name': _name, "age": _age, 'entry_score': 3,'timestamp':DateTime.now().toString()}).then((value) {
       print("user added");
       Navigator.of(context).pushNamed(MenuDashboardLayout.routeName);
     }).catchError((error) => print("Error $error"));
