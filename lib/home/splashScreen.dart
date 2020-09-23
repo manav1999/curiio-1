@@ -9,6 +9,7 @@ import 'dart:async';
 import '../login_signup/login_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   static const routeName = '/';
@@ -19,6 +20,8 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   String _userID;
+  String switchCode;
+
   String _userName;
   bool _isRegistered;
 
@@ -28,20 +31,54 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void navigationPage() {
-    if (_userID == null) {
+    /*if (_userID == null) {
       //if user does not exist,Login
-      Navigator.of(context).pushNamed(OnBoardingScreen.routeName);
+      Navigator.of(context).pushNamed(SignUpScreen.routeName);
     } else {
       if (_isRegistered == false) {
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) {
-            return FirstTimeLogin();
-          },
-        ));
+        Navigator.of(context).pushNamed(FirstTimeLogin.routeName);
         //if user exist but not registered,first_login
 
       } else if (_isRegistered == true) {
         Navigator.of(context).pushNamed(MenuDashboardLayout.routeName);
+      }
+    }*/
+    switch (switchCode) {
+      case 'not_logged_in':
+        {
+          Navigator.of(context).pushReplacementNamed(SignUpScreen.routeName);
+          print("User not logged in");
+        }
+        break;
+      case 'registered':
+        {
+          Navigator.of(context).pushReplacementNamed(MenuDashboardLayout.routeName);
+          print("user registered");
+        }
+        break;
+      case 'not_registered':
+        {
+          Navigator.of(context).pushNamed(FirstTimeLogin.routeName);
+          print("not registered");
+        }
+        break;
+    }
+  }
+
+  Future<bool> checkInitialisation() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    bool checkValue = pref.containsKey('firstRun');
+    if (checkValue == false) {
+      pref.setBool('firstRun', true);
+      return true;
+    } else {
+      bool value = pref.getBool('firstRun');
+      if (value) {
+        print("not first login");
+        return false;
+      } else {
+        pref.setBool('firstRun', true);
+        return true;
       }
     }
   }
@@ -50,16 +87,22 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     //Initializing firebase
     Firebase.initializeApp().then((value) {
-      //timer
-     startTime();
-      final _auth = AuthService();
-      //Get user Status
-      _auth.userdata.listen((User user) {
-        if (user == null) {
-          _userID = null;
+      startTime();
+      checkInitialisation().then((value) {
+        if (value) {
+          Navigator.of(context).pushReplacementNamed(OnBoardingScreen.routeName);
         } else {
-          _userID = user.uid;
-          _userCheck();
+          final _auth = AuthService();
+          //Get user Status
+          _auth.userdata.listen((User user) {
+            if (user == null) {
+              switchCode = 'not_logged_in';
+              _userID = null;
+            } else {
+              _userID = user.uid;
+              _userCheck();
+            }
+          });
         }
       });
     }).catchError((e) {
@@ -75,12 +118,12 @@ class _SplashScreenState extends State<SplashScreen> {
         .then((value) {
       if (value.exists) {
         print("User exists");
+        switchCode = "registered";
         Map<String, dynamic> data = value.data();
         _userName = data['name'];
-        _isRegistered = true;
       } else {
         print("user does not exists");
-        _isRegistered = false;
+        switchCode = "not_registered";
       }
     });
     /* Firestore.instance
@@ -110,7 +153,7 @@ class _SplashScreenState extends State<SplashScreen> {
             child: Container(
               child: Text(
                 'Curiio',
-              style: Theme.of(context).textTheme.headline1,
+                style: Theme.of(context).textTheme.headline1,
               ),
             ),
           ),

@@ -46,7 +46,6 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   String validatePass(String value) {
-    print('tt');
     if (value.isEmpty || value.length < 6)
       return "Enter a password 6+ chars long";
     else
@@ -149,7 +148,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   _validCredentials = true;
                                 });
                                 var a = await _auth.signIn(email, pass);
-                                loginHandler(a, context);
+                                 await loginHandler(a, context);
 
                               } else {
                                 setState(() {
