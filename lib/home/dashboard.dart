@@ -148,7 +148,7 @@ class DrawerItems extends StatelessWidget {
           ),
           FlatButton.icon(
             onPressed: () {
-              _auth.GoogleSignOut();
+              _auth.googleSignOut();
               _auth.signOut();
               Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
