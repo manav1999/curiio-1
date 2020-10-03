@@ -5,19 +5,15 @@ import 'video_lectures_screen.dart';
 import 'package:login_curiio/home/chatroom/chat_sceen.dart';
 import 'package:login_curiio/home/phases_list_screen.dart';
 import 'profile_screen.dart';
+import 'package:login_curiio/home/first_screen.dart';
+import 'package:login_curiio/auth.dart';
 
 class Dashboard extends StatefulWidget {
   @override
   _DashboardState createState() => _DashboardState();
 }
 
-class _DashboardState extends State<Dashboard>
-    with SingleTickerProviderStateMixin {
-  bool _isCollapsed = true;
-  final Duration duration = const Duration(milliseconds: 800);
-  AnimationController _controller;
-  Animation<double> _scaleAnimation;
-
+class _DashboardState extends State<Dashboard> {
   int _selectedPageIndex = 0;
 
   final List<Widget> _pages = [
@@ -29,76 +25,147 @@ class _DashboardState extends State<Dashboard>
   final List<String> appBarTitles = ['Phases', 'Chat Room', 'Profile'];
 
   @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(vsync: this, duration: duration);
-    _scaleAnimation = Tween<double>(begin: 1, end: 0.6).animate(_controller);
+  Widget build(BuildContext context) {
+    final _media = MediaQuery.of(context).size;
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(appBarTitles[_selectedPageIndex]),
+        centerTitle: true,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () {},
+          )
+        ],
+      ),
+      drawer: ClipRRect(
+        borderRadius: BorderRadius.only(
+          topRight: Radius.circular(60),
+          bottomRight: Radius.circular(60),
+        ),
+        child: Drawer(
+          child: DrawerItems(),
+        ),
+      ),
+      body: _pages[_selectedPageIndex],
+      bottomNavigationBar: CurvedNavigationBar(
+        items: <Widget>[
+          Icon(Icons.video_library),
+          Icon(Icons.chat_bubble_outline),
+          Icon(Icons.perm_identity),
+        ],
+        color: Theme.of(context).primaryColor,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        animationCurve: Curves.linear,
+        animationDuration: const Duration(milliseconds: 600),
+        onTap: (index) {
+          setState(() {
+            _selectedPageIndex = index;
+          });
+        },
+      ),
+    );
   }
+}
 
-  @override
-  void dispose() {
-    super.dispose();
-    _controller.dispose();
-  }
+class DrawerItems extends StatelessWidget {
+  final AuthService _auth = AuthService();
 
   @override
   Widget build(BuildContext context) {
-    final _media = MediaQuery.of(context).size;
-    return AnimatedPositioned(
-      duration: duration,
-      top: 0,
-      bottom: 0,
-      left: _isCollapsed ? 0 : 0.45 * _media.width,
-      right: _isCollapsed ? 0 : -0.4 * _media.height,
-      child: ScaleTransition(
-        scale: _scaleAnimation,
-        child: Material(
-          borderRadius: BorderRadius.all(Radius.circular(30)),
-          elevation: 20,
-          child: Scaffold(
-            appBar: AppBar(
-              title: Text(appBarTitles[_selectedPageIndex]),
-              centerTitle: true,
-              actions: <Widget>[
-                IconButton(
-                  icon: Icon(Icons.search),
-                  onPressed: () {},
-                )
+    return Container(
+      child: ListView(
+        children: [
+          // SizedBox(
+          //   height: 20,
+          // ),
+          Container(
+            child: Column(
+              children: [
+                Container(
+                  height: 150,
+                  //width: 150,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).primaryColor,
+                  ),
+                ),
+                // SizedBox(
+                //   height: 20,
+                // ),
               ],
-              leading: IconButton(
-                icon: Icon(Icons.menu),
-                onPressed: () {
-                  setState(() {
-                    print('menu pressed');
-                    if (_isCollapsed)
-                      _controller.forward();
-                    else
-                      _controller.reverse();
-
-                    _isCollapsed = !_isCollapsed;
-                  });
-                },
-              ),
-            ),
-            body: _pages[_selectedPageIndex],
-            bottomNavigationBar: CurvedNavigationBar(
-              items: <Widget>[
-                Icon(Icons.video_library),
-                Icon(Icons.chat_bubble_outline),
-                Icon(Icons.perm_identity),
-              ],
-              color: Theme.of(context).primaryColor,
-              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-              animationCurve: Curves.linear,
-              animationDuration: const Duration(milliseconds: 600),
-              onTap: (index) {
-                setState(() {
-                  _selectedPageIndex = index;
-                });
-              },
             ),
           ),
-        ),
+          SizedBox(
+            height: 20,
+          ),
+          FlatButton.icon(
+            onPressed: () {},
+            icon: Icon(Icons.dashboard),
+            label: Text('Dashboard'),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          FlatButton.icon(
+            onPressed: () {},
+            icon: Icon(Icons.person),
+            label: Text('Profile'),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          FlatButton.icon(
+            onPressed: () {},
+            icon: Icon(Icons.share),
+            label: Text('Share Your Progress'),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          FlatButton.icon(
+            onPressed: () {},
+            icon: Icon(Icons.link),
+            label: Text('Link Parent Account'),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          FlatButton.icon(
+            onPressed: () {},
+            icon: Icon(Icons.help),
+            label: Text('Help'),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          FlatButton.icon(
+            onPressed: () {},
+            icon: Icon(Icons.settings),
+            label: Text('Settings'),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          FlatButton.icon(
+            onPressed: () {
+              _auth.GoogleSignOut();
+              _auth.signOut();
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                  builder: (context) {
+                    return FirstScreen();
+                  },
+                ),
+                ModalRoute.withName('/'),
+              );
+            },
+            icon: Icon(Icons.power_settings_new),
+            label: Text('Logout'),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+        ],
       ),
     );
   }

@@ -109,7 +109,7 @@ class AuthService {
     await FirebaseAuth.instance.signOut();
   }
 
-  Future GoogleSignOut() async {
+  Future googleSignOut() async {
     await _googleSignIn.signOut();
     signOut();
   }
