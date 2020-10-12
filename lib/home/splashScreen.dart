@@ -46,21 +46,24 @@ class _SplashScreenState extends State<SplashScreen> {
     switch (switchCode) {
       case 'not_logged_in':
         {
-          Navigator.of(context).pushReplacementNamed(SignUpScreen.routeName);
+          Navigator.of(context).pushReplacementNamed('/sign-up-screen');
           print("User not logged in");
         }
         break;
       case 'registered':
         {
-          Navigator.of(context).pushReplacementNamed(MenuDashboardLayout.routeName);
+          Navigator.of(context).pushReplacementNamed('/menu_dashboard_layout');
           print("user registered");
         }
         break;
       case 'not_registered':
         {
-          Navigator.of(context).pushNamed(FirstTimeLogin.routeName);
+          Navigator.of(context).pushNamed('/first_time_login');
           print("not registered");
         }
+        break;
+      default :
+        Navigator.of(context).pushReplacementNamed('/sign-up-screen');
         break;
     }
   }
@@ -90,7 +93,7 @@ class _SplashScreenState extends State<SplashScreen> {
       startTime();
       checkInitialisation().then((value) {
         if (value) {
-          Navigator.of(context).pushReplacementNamed(OnBoardingScreen.routeName);
+          Navigator.of(context).pushReplacementNamed('/onBoarding_screen');
         } else {
           final _auth = AuthService();
           //Get user Status
