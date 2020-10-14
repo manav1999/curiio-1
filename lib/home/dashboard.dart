@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:login_curiio/home/chatroom/new_message.dart';
 
 import 'video_lectures_screen.dart';
 import 'package:login_curiio/home/chatroom/chat_sceen.dart';
@@ -24,20 +25,81 @@ class _DashboardState extends State<Dashboard> {
 
   final List<String> appBarTitles = ['Phases', 'Chat Room', 'Profile'];
 
+  Future<void> generateAlertDialog(BuildContext c) async {
+    return showDialog(
+      context: c,
+      builder: (ctx) {
+        return Dialog(
+          insetPadding: EdgeInsets.all(5),
+          backgroundColor: Colors.transparent,
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            margin: const EdgeInsets.all(10),
+            height: 200,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(20)),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Text(
+                  'Do you have a question to ask?',
+                  style: TextStyle(fontSize: 20),
+                ),
+                NewMessage(),
+                SizedBox(
+                  height: 10,
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final _media = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: Text(appBarTitles[_selectedPageIndex]),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        iconTheme: new IconThemeData(
+          color: Colors.black,
+        ),
+        title: Text(
+          appBarTitles[_selectedPageIndex],
+          style: TextStyle(
+            color: Colors.black,
+          ),
+        ),
         centerTitle: true,
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.search),
+            icon: Icon(
+              Icons.search,
+            ),
             onPressed: () {},
-          )
+          ),
         ],
       ),
+      floatingActionButton: _selectedPageIndex == 1
+          ? FloatingActionButton(
+              child: Icon(Icons.edit_outlined),
+              onPressed: () {
+                setState(() {
+                  generateAlertDialog(context);
+                });
+              },
+              tooltip: 'Write a message!',
+              elevation: 10,
+              backgroundColor: Theme.of(context).primaryColor,
+            )
+          : null,
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       drawer: ClipRRect(
         borderRadius: BorderRadius.only(
           topRight: Radius.circular(60),
@@ -148,7 +210,7 @@ class DrawerItems extends StatelessWidget {
           ),
           FlatButton.icon(
             onPressed: () {
-              _auth.GoogleSignOut();
+              _auth.googleSignOut();
               _auth.signOut();
               Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(

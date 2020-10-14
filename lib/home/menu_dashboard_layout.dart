@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'side_menu.dart';
-import 'dashboard.dart';
+import 'package:login_curiio/home/dashboard.dart';
 
 class MenuDashboardLayout extends StatelessWidget {
   static const routeName = '/menu_dashboard_layout';
@@ -15,12 +14,7 @@ class MenuDashboardLayout extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       backgroundColor: Theme.of(context).primaryColor,
       body: SafeArea(
-        child: Stack(
-          children: [
-            SideMenu(userName, userEmail),
-            Dashboard(),
-          ],
-        ),
+        child: Dashboard(),
       ),
     );
   }

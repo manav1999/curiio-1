@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:login_curiio/home/chatroom/messages.dart';
 import 'package:login_curiio/home/chatroom/new_message.dart';
-import 'package:login_curiio/home/chatroom/messages.dart';
 
 // import 'package:login_curiio/home/chatroom/chat_bubble.dart';
 
@@ -18,10 +17,11 @@ class _ChatScreenState extends State<ChatScreen> {
       padding: const EdgeInsets.all(10),
       child: Column(
         children: [
-          Expanded(child: Messages()),
-          NewMessage(),
+          Expanded(
+            child: Messages(),
+          ),
           SizedBox(
-            height: 10,
+            height: 5,
           ),
         ],
       ),

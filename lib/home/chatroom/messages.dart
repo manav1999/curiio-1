@@ -3,14 +3,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:login_curiio/home/chatroom/chat_bubble.dart';
-
-class Message {
-  final String messageBody;
-  final String userId;
-  final String sentAt;
-
-  Message({this.messageBody, this.userId, this.sentAt});
-}
+import 'package:login_curiio/models/message.dart';
+import 'package:login_curiio/database/db_queries.dart' as db;
 
 class Messages extends StatefulWidget {
   @override
@@ -20,27 +14,7 @@ class Messages extends StatefulWidget {
 class _MessagesState extends State<Messages> {
   bool _isInit = false;
   var _isLoading = false;
-  final List<Message> loadedChats = [];
-
-  Future<void> _fetchMessages() async {
-    final url = 'https://curiio-dev-3cedd.firebaseio.com/chats.json';
-    try {
-      final response = await http.get(url);
-      final extractedData = json.decode(response.body) as Map<String, dynamic>;
-      print(extractedData);
-      extractedData.forEach((chatId, chatData) {
-        loadedChats.add(
-          Message(
-            messageBody: chatData['message'],
-            userId: chatData['userId'],
-            sentAt: chatData['timestamp'],
-          ),
-        );
-      });
-    } catch (error) {
-      print(error);
-    }
-  }
+  List<Message> loadedChats = [];
 
   @override
   void initState() {
@@ -48,11 +22,19 @@ class _MessagesState extends State<Messages> {
     setState(() {
       _isLoading = true;
     });
-    _fetchMessages().then((value) {
+
+    _refreshMessages().then((value) {
       setState(() {
         _isLoading = false;
       });
     });
+  }
+
+  Future<void> _refreshMessages() async {
+    print('refreshing...');
+    loadedChats = await db.DBQueries().fetchMessages();
+    print('loaded chats');
+    setState(() {});
   }
 
   @override
@@ -61,9 +43,12 @@ class _MessagesState extends State<Messages> {
         ? Center(
             child: CircularProgressIndicator(),
           )
-        : ListView.builder(
-            itemBuilder: (ctx, index) => ChatBubble(loadedChats[index]),
-            itemCount: loadedChats.length,
+        : RefreshIndicator(
+            child: ListView.builder(
+              itemBuilder: (ctx, index) => ChatBubble(loadedChats[index]),
+              itemCount: loadedChats.length,
+            ),
+            onRefresh: _refreshMessages,
           );
   }
 }

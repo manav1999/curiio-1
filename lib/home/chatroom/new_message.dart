@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+import 'package:login_curiio/database/db_queries.dart' as db;
 
 class NewMessage extends StatefulWidget {
   @override
@@ -14,30 +14,13 @@ class _NewMessageState extends State<NewMessage> {
   var _enteredMessage = '';
   final _controller = new TextEditingController();
 
-  //
-  Future<void> _sendMessageAndAddToDB() async {
+  Future<void> _sendMessage() async {
+    print('sending message');
     FocusScope.of(context).unfocus();
-    User user = FirebaseAuth.instance.currentUser;
-
-    final url = 'https://curiio-dev-3cedd.firebaseio.com/chats.json';
-
-    try {
-      await http.post(
-        url,
-        body: json.encode({
-          'message': _enteredMessage,
-          'userId': user == null
-              ? 'google user'
-              : user
-                  .email, //this isnt working for google signed in users. need to check if person is a google user and render differently
-          'timestamp':
-              DateFormat.yMd().add_jm().format(new DateTime.now()).toString(),
-        }),
-      );
-      _controller.clear();
-    } catch (error) {
-      print(error);
-    }
+    Navigator.of(context).pop();
+    await db.DBQueries().addMessageToDB(_enteredMessage);
+    // await _refreshMessages();
+    _controller.clear();
   }
 
   @override
@@ -46,10 +29,10 @@ class _NewMessageState extends State<NewMessage> {
       children: [
         Expanded(
           child: TextField(
+            maxLength: 200,
             controller: _controller,
             textCapitalization: TextCapitalization.sentences,
-            decoration:
-                InputDecoration(hintText: 'Do you have a question to ask?'),
+            decoration: InputDecoration(hintText: 'Type here...'),
             onChanged: (val) {
               setState(() {
                 _enteredMessage = val;
@@ -61,9 +44,7 @@ class _NewMessageState extends State<NewMessage> {
           color: Theme.of(context).primaryColor,
           icon: Icon(Icons.send),
           onPressed: () {
-            return _enteredMessage.trim().isEmpty
-                ? null
-                : _sendMessageAndAddToDB();
+            return _enteredMessage.trim().isEmpty ? null : _sendMessage();
           },
         ),
       ],
