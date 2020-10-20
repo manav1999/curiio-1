@@ -83,9 +83,11 @@ class AuthService {
 
   Future registerWithEmail(String email, String pass) async {
     try {
-      UserCredential usercredential = await _auth
+      UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(email: email, password: pass);
-      return usercredential;
+      verifyEmail(userCredential.user);
+      print("Email sent for verification ");
+      return userCredential;
     } catch (e) {
       print(e.toString());
       return e;
@@ -105,6 +107,16 @@ class AuthService {
     }
   }
 
+  Future verifyEmail(User _user)async{
+   try{
+     await _user.sendEmailVerification();
+     return null;
+   }catch(e){
+     print("Email Verification Error");
+     rethrow ;
+   }
+
+  }
   Future signOut() async {
     await FirebaseAuth.instance.signOut();
   }
