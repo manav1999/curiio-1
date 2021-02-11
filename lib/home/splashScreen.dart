@@ -1,15 +1,12 @@
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:login_curiio/auth.dart';
-import 'package:login_curiio/home/first_login.dart';
-import 'package:login_curiio/home/menu_dashboard_layout.dart';
-import 'package:login_curiio/home/onBoarding_screen.dart';
-import 'package:login_curiio/login_signup/sign_up_screen.dart';
-import 'dart:async';
-import '../login_signup/login_screen.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:lottie/lottie.dart';
 
 class SplashScreen extends StatefulWidget {
   static const routeName = '/';
@@ -20,6 +17,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   String _userID;
+  String _userEmail;
   String switchCode;
 
   String _userName;
@@ -44,6 +42,12 @@ class _SplashScreenState extends State<SplashScreen> {
       }
     }*/
     switch (switchCode) {
+      case 'first_run':
+        {
+          Navigator.of(context).pushReplacementNamed('/onBoarding_screen');
+          print("onBorading Screen");
+        }
+        break;
       case 'not_logged_in':
         {
           Navigator.of(context).pushReplacementNamed('/sign-up-screen');
@@ -62,7 +66,7 @@ class _SplashScreenState extends State<SplashScreen> {
           print("not registered");
         }
         break;
-      default :
+      default:
         Navigator.of(context).pushReplacementNamed('/sign-up-screen');
         break;
     }
@@ -93,7 +97,7 @@ class _SplashScreenState extends State<SplashScreen> {
       startTime();
       checkInitialisation().then((value) {
         if (value) {
-          Navigator.of(context).pushReplacementNamed('/onBoarding_screen');
+          switchCode = 'first_run';
         } else {
           final _auth = AuthService();
           //Get user Status
@@ -148,25 +152,41 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
+      backgroundColor: Color(0xff2B2F71),
+      // body: Column(
+      //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      //   crossAxisAlignment: CrossAxisAlignment.center,
+      //   children: <Widget>[
+      //     Center(
+      //       child: Container(
+      //         child: Text(
+      //           'Curiio',
+      //           style: Theme.of(context).textTheme.headline1,
+      //         ),
+      //       ),
+      //     ),
+      //     Container(
+      //       height: 50,
+      //       width: 50,
+      //       child: CircularProgressIndicator(
+      //         strokeWidth: 5,
+      //       ),
+      //     )
+      //   ],
+      // ),
+      body: Stack(
+        children: [
           Center(
-            child: Container(
-              child: Text(
-                'Curiio',
-                style: Theme.of(context).textTheme.headline1,
-              ),
-            ),
-          ),
-          Container(
-            height: 50,
-            width: 50,
-            child: CircularProgressIndicator(
-              strokeWidth: 5,
-            ),
-          )
+              child: Container(
+            margin: EdgeInsets.fromLTRB(60, 50, 40, 50),
+            child: Image.asset('assets/logo/logo.png'),
+          )),
+          Positioned(
+              bottom: 40,
+              right: (MediaQuery.of(context).size.width/2)-37,
+              child: Container(
+                child: Lottie.asset('assets/lottie/jumpingBalls.json',width: 80),
+              ))
         ],
       ),
     );

@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
         FirstTimeLogin.routeName: (ctx) => FirstTimeLogin(),
         OnBoardingScreen.routeName:(ctx) => OnBoardingScreen()
       },*/initialRoute: '/',
-      onGenerateRoute: RouteGenerator.generateRoute,
+      onGenerateRoute: RouteGenerator.generateRoute, 
     );
   }
 }

@@ -309,7 +309,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       }
     });
   }
-  Future<void> signUpHandler(var a, context) {
+  Future signUpHandler(var a, context) {
     if (a is UserCredential) {
       if (a.user != null) {
         _userCheck(a.user.uid, context);
